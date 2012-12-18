@@ -11,4 +11,9 @@ describe("MessageBuilder", function() {
     expect(message).toEqual("[\"event\",\"lemma_id_1\",\"event_name\",\"event_value\"]");
   });
 
+  it("should build a registration message", function() {
+    message = builder.register(["speed", "rpm"], ["headlights"], "web", "1.0");
+    expect(message).toEqual("[\"register\",\"lemma_id_1\",0,[\"speed\",\"rpm\"],[\"headlights\"],\"web\",\"1.0\"]");
+  });
+
 });
