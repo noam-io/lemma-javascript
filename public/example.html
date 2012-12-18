@@ -1,0 +1,18 @@
+
+<html>
+  <head>
+    <script>
+      $(document).ready(function(){
+        lemma = new Lemma('lemma_web_socket')
+        lemma.hear("speed", function(evt) {
+          $("#msg").append("<p>"+evt.name+":&nbsp;" + evt.stringValue +  "</p>");
+        };
+        lemma.begin('localhost', 8080);
+        lemma.play("speed", "55");
+    </script>
+  </head>
+  <body>
+    <div id="debug"></div>
+    <div id="msg"></div>
+  </body>
+</html>
