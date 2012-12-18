@@ -8,7 +8,7 @@
           $("#msg").append("<p>"+evt.name+":&nbsp;" + evt.stringValue +  "</p>");
         };
         lemma.begin('localhost', 8080);
-        lemma.play("speed", "55");
+        lemma.sendEvent("speed", "55");
     </script>
   </head>
   <body>
