@@ -13,3 +13,7 @@ EventFilter.prototype.handle = function(event) {
     callback(event);
   });
 }
+
+EventFilter.prototype.events = function(event) {
+  return Object.keys(this.callbacks)
+};

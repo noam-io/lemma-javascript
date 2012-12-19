@@ -6,23 +6,17 @@ describe("EventFilter", function() {
 
   it("should register for an event", function() {
     var callback_event = undefined
-    filter.add("speed", function(event) {
-      callback_event = event;
-    });
+    filter.add("speed", function(event) { callback_event = event; });
     filter.handle({name: "speed", value: "55"})
     expect(callback_event).toEqual({name: "speed", value: "55"})
   });
 
   it("should register for multiple events", function() {
     var callback_speed = undefined;
-    filter.add("speed", function(event) {
-      callback_speed = event;
-    });
+    filter.add("speed", function(event) { callback_speed = event; });
 
     var callback_rpm = undefined;
-    filter.add("rpm", function(event) {
-      callback_rpm = event;
-    });
+    filter.add("rpm", function(event) { callback_rpm = event; });
 
     filter.handle({name: "speed", value: "55"})
     filter.handle({name: "rpm", value: "3500"})
@@ -32,18 +26,22 @@ describe("EventFilter", function() {
 
   it("should register multiple callbacks for an event", function() {
     var callback_event1 = undefined
-    filter.add("speed", function(event) {
-      callback_event1 = event;
-    });
+    filter.add("speed", function(event) { callback_event1 = event; });
 
     var callback_event2 = undefined
-    filter.add("speed", function(event) {
-      callback_event2 = event;
-    });
+    filter.add("speed", function(event) { callback_event2 = event; });
 
     filter.handle({name: "speed", value: "55"})
     expect(callback_event1).toEqual({name: "speed", value: "55"})
     expect(callback_event2).toEqual({name: "speed", value: "55"})
+  });
+
+  it("should list registered events", function() {
+    filter.add("speed");
+    filter.add("rpm");
+
+    expect(filter.events()).toContain("speed")
+    expect(filter.events()).toContain("rpm")
   });
 
 });
