@@ -1,25 +1,27 @@
 <html>
   <head>
-  <script type="text/javascript" src="lib/Lemma-eb3888cf35cf62c8d75ec5ab7333be17.js"></script>
+  <script type="text/javascript" src="lib/lemma.js"></script>
   <script type="text/javascript" src='lib/jquery.min.js'></script>
 
     <script>
       $(document).ready(function(){
         lemma = new Lemma('lemma_web_socket')
         lemma.hears("rpm", function(name, value) {
-          $("#msg").append("<p>" + name + ":&nbsp;" + value +  "</p>");
+          $("nl#msg").append("<li>" + name + ":&nbsp;" + value +  "</li>");
         });
         lemma.begin('localhost', 8080);
 
-        $("#rpm").click(function() {lemma.sendEvent("rpm", $("#rpmValue").val())});
+        $("button#rpm").click(function() {lemma.sendEvent("rpm", $("#rpmValue").val())});
       });
     </script>
   </head>
   <body>
-    <div id="debug"></div>
-    <div id="msg"></div>
-
+    <h1> Web Lemma Example </h1>
     <input id="rpmValue" type="text"/>
     <button id="rpm">RPM</button>
+
+    <h3> Received Messages </h3>
+    <nl id="msg"></nl>
+
   </body>
 </html>
