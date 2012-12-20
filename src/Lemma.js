@@ -1,3 +1,8 @@
+//= require MessageBuilder
+//= require EventFilter
+//= require MessageHandler
+//= require EventSender
+
 function Lemma(lemmaId) {
   this.messageBuilder = new MessageBuilder(lemmaId);
   this.eventFilter = new EventFilter();

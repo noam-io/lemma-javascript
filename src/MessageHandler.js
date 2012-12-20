@@ -1,3 +1,5 @@
+//= require TcpReader
+
 function MessageHandler(eventFilter) {
   this.tcpReader = new TcpReader(function(message) {
     try {

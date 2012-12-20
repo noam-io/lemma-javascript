@@ -1,22 +1,17 @@
 <html>
   <head>
-  <script type="text/javascript" src="src/Lemma.js"></script>
-  <script type="text/javascript" src="src/MessageBuilder.js"></script>
-  <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'></script>
-  <script type="text/javascript" src="src/EventFilter.js"></script>
-  <script type="text/javascript" src="src/EventSender.js"></script>
-  <script type="text/javascript" src="src/MessageHandler.js"></script>
-  <script type="text/javascript" src="src/TcpReader.js"></script>
+  <script type="text/javascript" src="lib/Lemma-eb3888cf35cf62c8d75ec5ab7333be17.js"></script>
+  <script type="text/javascript" src='lib/jquery.min.js'></script>
 
     <script>
       $(document).ready(function(){
         lemma = new Lemma('lemma_web_socket')
-        lemma.hears("speed", function(name, value) {
+        lemma.hears("rpm", function(name, value) {
           $("#msg").append("<p>" + name + ":&nbsp;" + value +  "</p>");
         });
         lemma.begin('localhost', 8080);
 
-        $("#speed").click(function() {lemma.sendEvent("speed", $("#speedValue").val())});
+        $("#rpm").click(function() {lemma.sendEvent("rpm", $("#rpmValue").val())});
       });
     </script>
   </head>
@@ -24,7 +19,7 @@
     <div id="debug"></div>
     <div id="msg"></div>
 
-    <input id="speedValue" type="text"/>
-    <button id="speed">Speed</button>
+    <input id="rpmValue" type="text"/>
+    <button id="rpm">RPM</button>
   </body>
 </html>
