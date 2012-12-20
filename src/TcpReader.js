@@ -5,11 +5,11 @@ function TcpReader(callback) {
 
 TcpReader.prototype.read = function(data) {
   this.buffer = this.buffer.concat(data);
+  size = this.payloadSize( this.buffer );
+  while ( size > 0 && this.buffer.length >= ( 6 + size ) ) {
+    this.consumeOne( size );
     size = this.payloadSize( this.buffer );
-    while ( size > 0 && this.buffer.length >= ( 6 + size ) ) {
-      this.consumeOne( size );
-      size = this.payloadSize( this.buffer );
-    }
+  }
 }
 
 TcpReader.prototype.payloadSize = function(buffer) {

@@ -8,11 +8,15 @@ EventFilter.prototype.add = function(name, callback) {
   this.callbacks[name].push(callback)
 }
 
-EventFilter.prototype.handle = function(event) {
-  this.callbacks[event.name].forEach(function (callback) {
-    callback(event);
-  });
-}
+EventFilter.prototype.handle = function(name, value) {
+  callbacks = this.callbacks[name]
+  if (callbacks != undefined) {
+    callbacks.forEach(function (callback) {
+      callback(name, value);
+    });
+  }
+};
+
 
 EventFilter.prototype.events = function(event) {
   return Object.keys(this.callbacks)

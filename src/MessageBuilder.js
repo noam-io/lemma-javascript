@@ -16,8 +16,8 @@ MessageBuilder.prototype.register = function( plays,  hears, device_id, system_v
   output.push('register');
   output.push(this.lemma_id);
   output.push(0);
-  output.push(plays);
   output.push(hears);
+  output.push(plays);
   output.push(device_id);
   output.push(system_version);
   return JSON.stringify(output);

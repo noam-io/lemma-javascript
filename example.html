@@ -5,12 +5,14 @@
   <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'></script>
   <script type="text/javascript" src="src/EventFilter.js"></script>
   <script type="text/javascript" src="src/EventSender.js"></script>
+  <script type="text/javascript" src="src/MessageHandler.js"></script>
+  <script type="text/javascript" src="src/TcpReader.js"></script>
 
     <script>
       $(document).ready(function(){
         lemma = new Lemma('lemma_web_socket')
-        lemma.hears("speed", function(evt) {
-          $("#msg").append("<p>"+evt.name+":&nbsp;" + evt.stringValue +  "</p>");
+        lemma.hears("speed", function(name, value) {
+          $("#msg").append("<p>" + name + ":&nbsp;" + value +  "</p>");
         });
         lemma.begin('localhost', 8080);
 

@@ -13,7 +13,7 @@ describe("MessageBuilder", function() {
 
   it("should build a registration message", function() {
     message = builder.register(["speed", "rpm"], ["headlights"], "web", "1.0");
-    expect(message).toEqual("[\"register\",\"lemma_id_1\",0,[\"speed\",\"rpm\"],[\"headlights\"],\"web\",\"1.0\"]");
+    expect(message).toEqual("[\"register\",\"lemma_id_1\",0,[\"headlights\"],[\"speed\",\"rpm\"],\"web\",\"1.0\"]");
   });
 
 });
