@@ -1,27 +1,34 @@
 <html>
   <head>
-  <script type="text/javascript" src="lib/lemma.js"></script>
   <script type="text/javascript" src='lib/jquery.min.js'></script>
+
+  <script type="text/javascript" src="src/EventFilter.js"></script>
+  <script type="text/javascript" src="src/EventSender.js"></script>
+  <script type="text/javascript" src="src/MessageBuilder.js"></script>
+  <script type="text/javascript" src="src/MessageHandler.js"></script>
+  <script type="text/javascript" src="src/TcpReader.js"></script>
+  <script type="text/javascript" src="src/Lemma.js"></script>
 
     <script>
       $(document).ready(function(){
-        lemma = new Lemma('lemma_web_socket')
-        lemma.hears("rpm", function(name, value) {
+        lemma = new Lemma('web: ' + (Math.random()).toFixed(6));
+        lemma.hears("message", function(name, value) {
           $("nl#msg").append("<li>" + name + ":&nbsp;" + value +  "</li>");
         });
-        lemma.begin('localhost', 8080);
+        lemma.begin('localhost', 8089);
 
-        $("button#rpm").click(function() {lemma.sendEvent("rpm", $("#rpmValue").val())});
+        $("button#message").click(function() {lemma.sendEvent("message", $("#messageText").val())});
       });
     </script>
   </head>
+
   <body>
     <h1> Web Lemma Example </h1>
-    <input id="rpmValue" type="text"/>
-    <button id="rpm">RPM</button>
+    <input id="messageText" type="text"/>
+    <button id="message">SEND</button>
 
     <h3> Received Messages </h3>
     <nl id="msg"></nl>
-
   </body>
+
 </html>
