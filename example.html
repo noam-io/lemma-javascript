@@ -1,7 +1,15 @@
 <html>
-  <head>
-  <script type="text/javascript" src='lib/jquery.min.js'></script>
+<!-- 
+This is a simple example site that demonstrates the Noam Js Lemma using websockets.
 
+Authors:
+  Doug Bradbury [ 8th Light ]
+  Ethan Klein [ IDEO ]
+  Evan Shapiro [IDEO ]
+-->
+  <head>
+    <!-- Required includes for Js Lemma -->
+  <script type="text/javascript" src='lib/jquery.min.js'></script>
   <script type="text/javascript" src="src/EventFilter.js"></script>
   <script type="text/javascript" src="src/EventSender.js"></script>
   <script type="text/javascript" src="src/MessageBuilder.js"></script>
@@ -11,13 +19,16 @@
 
     <script>
       $(document).ready(function(){
-        lemma = new Lemma('web: ' + (Math.random()).toFixed(6));
-        lemma.hears("message", function(name, value) {
+        // Add 6 random digits to the Lemma ID so multiple identical web views can join the network
+        lemma = new Lemma('web: ' + (Math.random()).toFixed(6)); 
+        // Register to receive 'noamMessage', call back function appends received message to list
+        lemma.hears("noamMessage", function(name, value) {
           $("nl#msg").append("<li>" + name + ":&nbsp;" + value +  "</li>");
         });
-        lemma.begin('localhost', 8089);
+        lemma.begin('127.0.0.1', 8089); // IP address of the Noam server to connect to and its websocket port
 
-        $("button#message").click(function() {lemma.sendEvent("message", $("#messageText").val())});
+        // When button is clicked, send text box contents as 'noamMessage' event
+        $("button#message").click(function() {lemma.sendEvent("noamMessage", $("#messageText").val())});
       });
     </script>
   </head>
