@@ -21,3 +21,7 @@ EventFilter.prototype.handle = function(name, value) {
 EventFilter.prototype.events = function(event) {
   return Object.keys(this.callbacks)
 };
+
+if(typeof module !== 'undefined' && module.exports){
+  module.exports = EventFilter;
+}

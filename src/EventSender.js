@@ -19,3 +19,7 @@ EventSender.prototype.sendMessage = function(message) {
 EventSender.prototype.zeroPad = function(number, width) {
   return (new Array(width + 1 - number.toString().length)).join('0') + number;
 };
+
+if(typeof module !== 'undefined' && module.exports){
+  module.exports = EventSender;
+}

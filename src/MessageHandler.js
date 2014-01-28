@@ -1,4 +1,8 @@
-//= require TcpReader
+var isNode = false;
+if(typeof module !== 'undefined' && module.exports){
+  var TcpReader = require('./TcpReader');
+  isNode = true;  
+}
 
 function MessageHandler(eventFilter) {
   this.tcpReader = new TcpReader(function(message) {
@@ -18,3 +22,7 @@ function MessageHandler(eventFilter) {
 MessageHandler.prototype.receive = function(data) {
   this.tcpReader.read(data);
 };
+
+if(isNode){
+    module.exports = MessageHandler;
+}

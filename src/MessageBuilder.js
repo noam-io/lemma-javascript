@@ -2,6 +2,7 @@ function MessageBuilder(lemma_id){
   this.lemma_id = lemma_id;
 }
 
+
 MessageBuilder.prototype.event = function(name, value){
  var output = []
  output.push("event");
@@ -22,3 +23,7 @@ MessageBuilder.prototype.register = function( plays,  hears, device_id, system_v
   output.push(system_version);
   return JSON.stringify(output);
 };
+
+if(typeof module !== 'undefined' && module.exports){
+  module.exports = MessageBuilder;
+}

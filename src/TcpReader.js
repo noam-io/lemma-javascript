@@ -27,3 +27,7 @@ TcpReader.prototype.consumeOne = function(size) {
   this.callback( this.buffer.slice( messageStart, messageEnd ) );
   this.buffer = this.buffer.slice( messageEnd, this.buffer.length );
 }
+
+if(typeof module !== 'undefined' && module.exports){
+  module.exports = TcpReader;
+}
