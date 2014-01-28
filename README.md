@@ -1,6 +1,11 @@
-#Web Lemma
+#Javascript Lemma
 This library is used to connect javascript applications to Ideo's Noam Server.
 It uses web sockets which can connect up through firewalls and translation layers.
+
+This lemma may be used directly in a web page or within node.
+
+##Web
+This section describes the usage of this lemma within an HTML web page.
 
 ###Setup
   Include lemma.js and jquery in your app
@@ -8,7 +13,7 @@ It uses web sockets which can connect up through firewalls and translation layer
         <script type="text/javascript" src="lib/lemma.js"></script>
         <script type="text/javascript" src='lib/jquery.min.js'></script>
 ###Usage
-See example.html for a complete example.
+See examples/webExample.html for a complete example.
 
 1. Create an instance of the Lemma library.  Choose a unique lemma id.
 
@@ -38,3 +43,16 @@ requires ruby and the sprockets gem
         $sprockets
         $mv lib/Lemma-*.js lib/lemma.js
 
+
+## Node
+This section describes usage of this lemma within a Node application.
+
+### Setup
+  Require Lemma.js in your app
+
+      var Lemma = require('./src/Lemma.js')
+
+### Usage
+See examples/nodeExample.js for a complete example.
+
+To run the example go into the examples/ directory and type `node nodeExample.js`
