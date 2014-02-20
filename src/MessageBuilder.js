@@ -11,7 +11,7 @@ MessageBuilder.prototype.event = function(name, value){
   return JSON.stringify(output);
 };
 
-MessageBuilder.prototype.register = function( plays,  hears, device_id, system_version){
+MessageBuilder.prototype.register = function(plays, hears, device_id, system_version){
   var output = [];
   output.push('register');
   output.push(this.lemma_id);
@@ -20,6 +20,16 @@ MessageBuilder.prototype.register = function( plays,  hears, device_id, system_v
   output.push(plays);
   output.push(device_id);
   output.push(system_version);
+  return JSON.stringify(output);
+};
+
+MessageBuilder.prototype.marco = function(desiredRoom){
+  var output = [];
+  output.push('marco');
+  output.push(this.lemma_id);
+  output.push(desiredRoom);
+  output.push('node.js');
+  output.push('1.1');
   return JSON.stringify(output);
 };
 

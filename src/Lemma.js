@@ -6,20 +6,22 @@
 var isNode = false;
 if(typeof module !== 'undefined' && module.exports){
   isNode = true;
-  var MessageBuilder = require('./MessageBuilder'),
-         EventFilter = require('./EventFilter'),
-      MessageHandler = require('./MessageHandler'),
-         EventSender = require('./EventSender'),
-           WebSocket = require('ws');
+  var EventFilter = require('./EventFilter'),
+  MessageBuilder = require('./MessageBuilder'),
+  MessageHandler = require('./MessageHandler'),
+  EventSender = require('./EventSender'),
+  WebSocket = require('ws');
 }
 
 function Lemma(lemmaId) {
+  this.lemmaId = lemmaId;
   this.messageBuilder = new MessageBuilder(lemmaId);
   this.eventFilter = new EventFilter();
   this.messageHandler = new MessageHandler(this.eventFilter);
 }
 
-Lemma.prototype.debug = function(str){ console.log(str);};
+Lemma.prototype.debug = function(str){ console.log(str); };
+Lemma.prototype.isConnected = function(){ return !!this.sender; };
 
 Lemma.prototype.begin = function(host, port) {
   var lemma = this;
@@ -27,7 +29,13 @@ Lemma.prototype.begin = function(host, port) {
   lemma.sender = new EventSender(ws, this.messageBuilder);
 
   ws.onmessage = function(evt) { lemma.messageHandler.receive(evt.data); };
-  ws.onclose = function() { lemma.debug("socket closed"); };
+  ws.onclose = function() {
+    lemma.debug("socket closed");
+    lemma.sender = null;
+    if(lemma.onDisconnectCallback) {
+      lemma.onDisconnectCallback();
+    }
+  };
   ws.onopen = function() {
     console.log("connected...");
     lemma.sender.sendRegister([], lemma.eventFilter.events());
@@ -35,6 +43,10 @@ Lemma.prototype.begin = function(host, port) {
   ws.onerror = function(err) {
     lemma.debug("Web socket Error");
     lemma.debug(err);
+    lemma.sender = null;
+    if(lemma.onDisconnectCallback) {
+      lemma.onDisconnectCallback();
+    }
   };
 };
 

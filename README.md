@@ -5,13 +5,28 @@ It uses web sockets, which can connect up through firewalls and translation laye
 
 This lemma may be used directly in a web page or within node.
 
+
 ## Web
 
 This section describes the usage of this lemma within an HTML web page.
 
+### Building
+
+This step is necessary if you want a single file to require on your web page.
+It's not necessary if you want to use Node.js or are fine including all the
+files you need by yourself. Requires Ruby, Bundler, Node, NPM
+
+```bash
+$ bundle install # installs sprockets, an asset precompiler
+$ npm install    # installs the websockets dependency
+$ git clean -f -x lib
+$ bundle exec sprockets
+$ mv lib/Lemma-*.js lib/lemma.js
+```
+
 ### Setup
 
-Include lemma.js and jquery in your app
+Include lemma.js (don't forget to build it, as noted above) and jquery in your app
 
 ```html
 <script type="text/javascript" src="lib/lemma.js"></script>
@@ -51,20 +66,15 @@ $("button#rpm").click(function() {
 });
 ```
 
-### Compiling
-
-Requires Ruby, Bundler, Node, NPM
-
-```bash
-$ bundle install # installs sprockets, an asset precompiler
-$ npm install    # installs the websockets dependency
-$ bundle exec sprockets
-$ mv lib/Lemma-*.js lib/lemma.js
-```
-
 ## Node
 
 This section describes usage of this lemma within a Node application.
+
+### Building
+
+```bash
+$ npm install    # installs the websockets dependency
+```
 
 ### Setup
 
