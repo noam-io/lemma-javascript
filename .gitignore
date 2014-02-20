@@ -1,0 +1,4 @@
+/node_modules
+/lib/lemma.js
+/lib/manifest-*.json
+/lib/Lemma-*.js*

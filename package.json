@@ -1,0 +1,15 @@
+{
+  "name": "noam-lemma-javascript",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ideo/noam-lemma-javascript.git"
+  },
+  "dependencies": {
+    "ws": "0.4.x"
+  },
+  "engines": {
+    "node": "0.11.x",
+    "npm": "1.2.x"
+  }
+}
