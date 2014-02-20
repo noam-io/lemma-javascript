@@ -17,13 +17,13 @@ function Lemma(lemmaId) {
   this.messageBuilder = new MessageBuilder(lemmaId);
   this.eventFilter = new EventFilter();
   this.messageHandler = new MessageHandler(this.eventFilter);
-}; 
+}
 
 Lemma.prototype.debug = function(str){ console.log(str);};
 
 Lemma.prototype.begin = function(host, port) {
-  var lemma = this
-  ws = new WebSocket("ws://" + host + ":" + port.toString() + "/websocket");
+  var lemma = this;
+  var ws = new WebSocket("ws://" + host + ":" + port.toString() + "/websocket");
   lemma.sender = new EventSender(ws, this.messageBuilder);
 
   ws.onmessage = function(evt) { lemma.messageHandler.receive(evt.data); };
@@ -35,7 +35,7 @@ Lemma.prototype.begin = function(host, port) {
   ws.onerror = function(err) {
     lemma.debug("Web socket Error");
     lemma.debug(err);
-  }
+  };
 };
 
 Lemma.prototype.hears = function(name, callback) {
@@ -43,7 +43,7 @@ Lemma.prototype.hears = function(name, callback) {
 };
 
 Lemma.prototype.sendEvent = function(name, value) {
-  if (this.sender != undefined) {
+  if (this.sender) {
     this.sender.sendEvent(name, value);
   }
   else {
@@ -53,5 +53,5 @@ Lemma.prototype.sendEvent = function(name, value) {
 
 if(isNode){
   module.exports = Lemma;
-} 
+}
 

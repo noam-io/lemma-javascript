@@ -79,3 +79,14 @@ var Lemma = require('./src/Lemma.js')
 See examples/nodeExample.js for a complete example.
 
 To run the example go into the examples/ directory and type `node nodeExample.js`
+
+
+## Developing
+
+After running `npm install`, you'll have a local copy of jshint to check your
+JavaScript for things like using globals and other such accidents. To run that, it's just:
+
+```bash
+./node_modules/jshint/bin/jshint ./src
+```
+

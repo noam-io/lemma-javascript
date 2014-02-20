@@ -8,6 +8,21 @@
   "dependencies": {
     "ws": "0.4.x"
   },
+  "devDependencies": {
+    "jshint": "2.x"
+  },
+  "jshintConfig": {
+    "boss":      true,
+    "node":      true,
+    "smarttabs": true,
+    "undef":     true,
+    "unused":    true,
+    "onecase":   true,
+    "lastsemic": true,
+    "newcap":    false,
+    "maxlen":    100,
+    "indent":    2
+  },
   "engines": {
     "node": "0.11.x",
     "npm": "1.2.x"

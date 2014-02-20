@@ -2,7 +2,7 @@ function EventSender(webSocket, builder) {
   this.systemVersion = "1.0";
   this.webSocket = webSocket;
   this.builder = builder;
-};
+}
 
 EventSender.prototype.sendEvent = function(name, value){
   this.sendMessage(this.builder.event(name, value));
