@@ -1,5 +1,5 @@
 <html>
-<!-- 
+<!--
 This is a simple example site that demonstrates the Noam Js Lemma using websockets.
 
 Authors:
@@ -20,7 +20,7 @@ Authors:
     <script>
       $(document).ready(function(){
         // Add 6 random digits to the Lemma ID so multiple identical web views can join the network
-        lemma = new Lemma('web: ' + (Math.random()).toFixed(6)); 
+        lemma = new Lemma('web' + ((Math.random()).toFixed(6) * 1000000));
         // Register to receive 'noamMessage', call back function appends received message to list
         lemma.hears("noamMessage", function(name, value) {
           $("nl#msg").append("<li>" + name + ":&nbsp;" + value +  "</li>");
