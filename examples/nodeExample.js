@@ -1,20 +1,20 @@
 var ServerLocator = require('../src/ServerLocator.js');
 var Lemma = require('../src/Lemma.js');
 
-var lemma1 = new Lemma('lemma1');
+var lemma1 = new Lemma('lemma1', "");
 lemma1.hears('sentFromlemma2', function(name, value){
   console.log(name + " : " + value);
 });
 
-var lemma2 = new Lemma('lemma2');
+var lemma2 = new Lemma('lemma2', "");
 lemma2.hears('sentFromlemma1', function(name, value){
 	console.log(name + " : " + value);
 });
 
 
 //// Connect via auto-discovery:
-new ServerLocator(lemma1).beginLocating("Desired Room");
-new ServerLocator(lemma2).beginLocating("Desired Room");
+new ServerLocator(lemma1).beginLocating();
+new ServerLocator(lemma2).beginLocating();
 
 //// or directly:
 // lemma1.begin('localhost', 8089);

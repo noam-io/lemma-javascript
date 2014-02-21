@@ -13,9 +13,10 @@ if(typeof module !== 'undefined' && module.exports){
   WebSocket = require('ws');
 }
 
-function Lemma(lemmaId) {
+function Lemma(lemmaId, desiredRoom) {
   this.lemmaId = lemmaId;
-  this.messageBuilder = new MessageBuilder(lemmaId);
+  this.desiredRoom = desiredRoom;
+  this.messageBuilder = new MessageBuilder(this.lemmaId);
   this.eventFilter = new EventFilter();
   this.messageHandler = new MessageHandler(this.eventFilter);
 }
@@ -56,7 +57,15 @@ Lemma.prototype.hears = function(name, callback) {
 
 Lemma.prototype.sendEvent = function(name, value) {
   if (this.sender) {
-    this.sender.sendEvent(name, value);
+    try {
+      this.sender.sendEvent(name, value);
+    } catch (e) {
+      console.log("Error trying to send: " + e);
+      this.sender = null;
+      if(this.onDisconnectCallback) {
+        this.onDisconnectCallback();
+      }
+    }
   }
   else {
     this.debug("You must 'begin' the lemma before sending a message");

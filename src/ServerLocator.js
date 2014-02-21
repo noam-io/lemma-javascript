@@ -8,7 +8,8 @@ if(typeof module !== 'undefined' && module.exports){
 }
 
 
-// from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
+/* jshint ignore:start */
+// from http://mzl.la/1fFEbu9
 if(!Function.prototype.bind) {
   Function.prototype.bind = function (oThis) {
     if (typeof this !== "function") {
@@ -32,6 +33,7 @@ if(!Function.prototype.bind) {
     return fBound;
   };
 }
+/* jshint ignore:end */
 
 function ServerLocator(lemma) {
   this.lemma = lemma;
@@ -44,9 +46,10 @@ function ServerLocator(lemma) {
   this.webSocketPort = 8089;
 }
 
-ServerLocator.prototype.beginLocating = function(desiredRoom) {
+ServerLocator.prototype.beginLocating = function() {
   var serverLocator = this;
   var lemma = this.lemma;
+  var desiredRoom = lemma.desiredRoom;
   var message = new MessageBuilder(lemma.lemmaId).marco(desiredRoom || "");
 
   var udp = Datagram.createSocket("udp4");
