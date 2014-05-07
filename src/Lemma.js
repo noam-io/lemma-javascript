@@ -14,6 +14,7 @@ if(typeof module !== 'undefined' && module.exports){
 }
 
 function Lemma(lemmaId, desiredRoom) {
+  this.connected = false;
   this.lemmaId = lemmaId;
   this.desiredRoom = desiredRoom;
   this.messageBuilder = new MessageBuilder(this.lemmaId);
@@ -22,7 +23,7 @@ function Lemma(lemmaId, desiredRoom) {
 }
 
 Lemma.prototype.debug = function(str){ console.log(str); };
-Lemma.prototype.isConnected = function(){ return !!this.sender; };
+Lemma.prototype.isConnected = function(){ return !!this.connected; };
 
 Lemma.prototype.begin = function(host, port) {
   var lemma = this;
@@ -31,6 +32,7 @@ Lemma.prototype.begin = function(host, port) {
 
   ws.onmessage = function(evt) { lemma.messageHandler.receive(evt.data); };
   ws.onclose = function() {
+    lemma.connected = false;
     lemma.debug("socket closed");
     lemma.sender = null;
     if(lemma.onDisconnectCallback) {
@@ -40,8 +42,10 @@ Lemma.prototype.begin = function(host, port) {
   ws.onopen = function() {
     console.log("connected...");
     lemma.sender.sendRegister([], lemma.eventFilter.events());
+    lemma.connected = true;
   };
   ws.onerror = function(err) {
+    lemma.connected = false;
     lemma.debug("Web socket Error");
     lemma.debug(err);
     lemma.sender = null;
