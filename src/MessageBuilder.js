@@ -1,3 +1,5 @@
+//Copyright (c) 2014, IDEO 
+
 function MessageBuilder(lemma_id){
   this.lemma_id = lemma_id;
 }

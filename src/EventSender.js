@@ -1,3 +1,5 @@
+//Copyright (c) 2014, IDEO 
+
 function EventSender(webSocket, builder) {
   this.systemVersion = "1.0";
   this.webSocket = webSocket;

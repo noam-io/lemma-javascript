@@ -1,3 +1,5 @@
+//Copyright (c) 2014, IDEO 
+
 var isNode = false;
 if(typeof module !== 'undefined' && module.exports){
   var TcpReader = require('./TcpReader'),

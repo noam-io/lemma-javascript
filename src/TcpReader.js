@@ -1,3 +1,5 @@
+//Copyright (c) 2014, IDEO 
+
 function TcpReader(callback) {
   this.callback = callback;
   this.buffer = "";

@@ -1,3 +1,5 @@
+//Copyright (c) 2014, IDEO 
+
 //= require MessageBuilder
 //= require EventFilter
 //= require MessageHandler

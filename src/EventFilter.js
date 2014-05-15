@@ -1,3 +1,5 @@
+//Copyright (c) 2014, IDEO 
+
 function EventFilter() {
   this.callbacks = {};
 }
