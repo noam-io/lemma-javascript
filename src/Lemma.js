@@ -6,6 +6,7 @@
 //= require EventSender
 
 var isNode = false;
+var debugMode = false;
 if(typeof module !== 'undefined' && module.exports){
   isNode = true;
   var EventFilter = require('./EventFilter'),
@@ -15,16 +16,21 @@ if(typeof module !== 'undefined' && module.exports){
   WebSocket = require('ws');
 }
 
-function Lemma(lemmaId, desiredRoom) {
+function Lemma(lemmaId, desiredRoom, debug) {
   this.connected = false;
   this.lemmaId = lemmaId;
   this.desiredRoom = desiredRoom;
+  if( debug == "DEBUG") this.debugMode = true;
   this.messageBuilder = new MessageBuilder(this.lemmaId);
   this.eventFilter = new EventFilter();
   this.messageHandler = new MessageHandler(this.eventFilter);
 }
 
-Lemma.prototype.debug = function(str){ console.log(str); };
+Lemma.prototype.debug = function(str){ 
+  if(this.debugMode){
+    console.log(str); 
+  }
+};
 Lemma.prototype.isConnected = function(){ return !!this.connected; };
 
 Lemma.prototype.begin = function(host, port) {
@@ -42,7 +48,7 @@ Lemma.prototype.begin = function(host, port) {
     }
   };
   ws.onopen = function() {
-    console.log("connected...");
+    lemma.debug("connected...");
     lemma.sender.sendRegister([], lemma.eventFilter.events());
     lemma.connected = true;
   };
@@ -66,7 +72,7 @@ Lemma.prototype.sendEvent = function(name, value) {
     try {
       this.sender.sendEvent(name, value);
     } catch (e) {
-      console.log("Error trying to send: " + e);
+      this.debug("Error trying to send: " + e);
       this.sender = null;
       if(this.onDisconnectCallback) {
         this.onDisconnectCallback();

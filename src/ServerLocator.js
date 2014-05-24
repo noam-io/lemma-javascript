@@ -1,7 +1,7 @@
 //Copyright (c) 2014, IDEO 
 
 var isNode = false;
-
+var debugMode = false;
 if(typeof module !== 'undefined' && module.exports){
   isNode = true;
   var Datagram = require('dgram'),
@@ -43,7 +43,7 @@ function ServerLocator(lemma) {
   this.broadcastHost = "255.255.255.255";
   this.broadcastPort = 1030;
   this.dialect = "node.js";
-  this.protocolVersion = "1.1";
+  this.protocolVersion = "2";
 
   this.webSocketPort = 8089;
 }
@@ -57,7 +57,7 @@ ServerLocator.prototype.beginLocating = function() {
   var udp = Datagram.createSocket("udp4");
 
   udp.on("error", function (err) {
-    console.log("udp error:\n" + err.stack);
+    lemma.debug("udp error:\n" + err.stack);
     udp.close();
   });
 
@@ -65,14 +65,14 @@ ServerLocator.prototype.beginLocating = function() {
     if(lemma.isConnected()) { return; }
     var parsed = new MessageParser().parse(message);
     if(parsed[0] === "polo") {
-      console.log("got polo from " + sender.address + ":" + sender.port + " - " + message);
+      lemma.debug("got polo from " + sender.address + ":" + sender.port + " - " + message);
       lemma.begin(sender.address, serverLocator.webSocketPort);
     }
   });
 
   udp.on("listening", function () {
     var address = udp.address();
-    console.log("udp listening " + address.address + ":" + address.port);
+    lemma.debug("udp listening " + address.address + ":" + address.port);
   });
 
   udp.bind(function() {
@@ -82,7 +82,7 @@ ServerLocator.prototype.beginLocating = function() {
   var fire = function() {
     if(lemma.isConnected()) { return; }
     var sendCallback = function() {
-      console.log("sent marco: " + message);
+      lemma.debug("sent marco: " + message);
       setTimeout(fire, 1000);
     };
     udp.send(new Buffer(message), 0, message.length,
