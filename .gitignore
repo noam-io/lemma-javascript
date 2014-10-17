@@ -2,3 +2,4 @@
 /lib/lemma.js
 /lib/manifest-*.json
 /lib/Lemma-*.js*
+.DS_Store
