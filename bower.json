@@ -1,0 +1,27 @@
+{
+  "name": "noam-lemma-javascript",
+  "version": "0.2.1",
+  "homepage": "https://github.com/noam-io/lemma-javascript",
+  "authors": [
+    "dethtron5000 <polson@ideo.com>",
+    "Andrew Kelly <akelly@8thlight.com>",
+    "Colin Jones <trptcolin@gmail.com>",
+    "David Brody <dbrody@ideo.com>",
+    "Doug Bradbury <doug@bradbury.cc>",
+    "Joe Banks <jbanks@ideo.com>",
+    "dougbradbury <doug@8thlight.com>",
+    "evan <eshapiro@ideo.com>"
+  ],
+  "description": "This library is used to connect javascript applications to Ideo's Noam Server. It uses web sockets, which can connect up through firewalls and translation layers.",
+  "keywords": [
+    "noam"
+  ],
+  "license": "BSD-3-Clause",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
