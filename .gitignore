@@ -2,4 +2,5 @@
 /lib/lemma.js
 /lib/manifest-*.json
 /lib/Lemma-*.js*
+/bower_components
 .DS_Store

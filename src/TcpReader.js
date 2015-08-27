@@ -1,4 +1,4 @@
-//Copyright (c) 2014, IDEO 
+//Copyright (c) 2015, IDEO 
 
 function TcpReader(callback) {
   this.callback = callback;

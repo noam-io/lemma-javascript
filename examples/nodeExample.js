@@ -1,4 +1,4 @@
-//Copyright (c) 2014, IDEO 
+//Copyright (c) 2015, IDEO 
 
 var ServerLocator = require('../src/ServerLocator.js');
 var Lemma = require('../src/Lemma.js');

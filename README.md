@@ -14,28 +14,29 @@ This section describes the usage of this lemma within an HTML web page.
 
 This step is necessary if you want a single file to require on your web page.
 It's not necessary if you want to use Node.js or are fine including all the
-files you need by yourself. Requires Ruby, Bundler, Node, NPM
+files you need by yourself. Requires [Grunt](http://gruntjs.com/).
+
+**Note:** Prebuilt concatenated and minified versions of the library are distributed in the `dist` folder of this repository
 
 ```bash
-$ bundle install # installs sprockets, an asset precompiler
-$ npm install    # installs the websockets dependency
-$ git clean -f -x lib
-$ bundle exec sprockets
-$ mv lib/Lemma-*.js lib/lemma.js
+$ npm install
+$ bower install
+$ grunt
 ```
 
 ### Setup
 
-Include lemma.js (don't forget to build it, as noted above) and jquery in your app
+Include `lemma.js` your app:
 
 ```html
-<script type="text/javascript" src="lib/lemma.js"></script>
-<script type="text/javascript" src='lib/jquery.min.js'></script>
+<script type="text/javascript" src="dist/lemma.js"></script>
 ```
 
 ### Usage
 
 See examples/webExample.html for a complete example.
+
+**Note:** these examples use jQuery -  in your HTML page
 
 1. Create an instance of the Lemma library.  Choose a unique lemma id.
 
@@ -47,7 +48,7 @@ lemma = new Lemma('LEMMA_ID')
 
 ```javascript
 lemma.hears("rpm", function(name, value) {
-  //update your page here.
+  //update your page here (using jQuery).
   $("div#msg").append("<p>" + name + ":&nbsp;" + value +  "</p>");
 });
 ```
