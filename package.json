@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/ideo/noam-lemma-javascript.git"
+    "url": "git://github.com/inoam-io/lemma-javascript"
   },
   "homepage": "https://github.com/noam-io/lemma-javascript",
   "author":"dethtron5000 <polson@ideo.com>",
