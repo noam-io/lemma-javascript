@@ -17,6 +17,10 @@
     "dougbradbury <doug@8thlight.com>",
     "evan <eshapiro@ideo.com>"
   ],
+  "keywords": [
+    "noam",
+    "internet of things"
+  ],
   "description": "This library is used to connect javascript applications to Ideo's Noam Server. It uses web sockets, which can connect up through firewalls and translation layers.",
   "dependencies": {
     "ws": "0.4.x"
