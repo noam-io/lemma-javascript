@@ -27,6 +27,7 @@
 
   <script type="text/javascript">
     (function() {
+      'use strict';
       var jasmineEnv = jasmine.getEnv();
       jasmineEnv.updateInterval = 1000;
 
@@ -44,6 +45,7 @@
         if (currentWindowOnload) {
           currentWindowOnload();
         }
+
         execJasmine();
       };
 
@@ -52,7 +54,8 @@
       }
 
     })();
-  </script>
+
+</script>
 
 </head>
 

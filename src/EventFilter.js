@@ -1,3 +1,4 @@
+'use strict';
 //Copyright (c) 2015, IDEO 
 
 function EventFilter() {

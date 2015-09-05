@@ -1,3 +1,4 @@
+'use strict';
 //Copyright (c) 2015, IDEO 
 
 function EventFilter() {
@@ -28,20 +29,22 @@ if(typeof module !== 'undefined' && module.exports){
   module.exports = EventFilter;
 }
 
-//Copyright (c) 2015, IDEO 
+'use strict';
+
+//Copyright (c) 2015, IDEO
 
 function EventSender(webSocket, builder) {
-  this.systemVersion = "1.0";
+  this.systemVersion = '1.0';
   this.webSocket = webSocket;
   this.builder = builder;
 }
 
-EventSender.prototype.sendEvent = function(name, value){
+EventSender.prototype.sendEvent = function(name, value) {
   this.sendMessage(this.builder.event(name, value));
 };
 
 EventSender.prototype.sendRegister = function(plays, hears) {
-  this.sendMessage(this.builder.register(plays, hears, "web", this.systemVersion));
+  this.sendMessage(this.builder.register(plays, hears, 'web', this.systemVersion));
 };
 
 EventSender.prototype.sendMessage = function(message) {
@@ -56,7 +59,9 @@ if(typeof module !== 'undefined' && module.exports){
   module.exports = EventSender;
 }
 
-//Copyright (c) 2015, IDEO 
+'use strict';
+
+//Copyright (c) 2015, IDEO
 
 //= require MessageBuilder
 //= require EventFilter
@@ -64,59 +69,70 @@ if(typeof module !== 'undefined' && module.exports){
 //= require EventSender
 
 var isNode = false;
-var debugMode = false;
-if(typeof module !== 'undefined' && module.exports){
+
+if (typeof module !== 'undefined' && module.exports) {
   isNode = true;
-  var EventFilter = require('./EventFilter'),
-  MessageBuilder = require('./MessageBuilder'),
-  MessageHandler = require('./MessageHandler'),
-  EventSender = require('./EventSender'),
-  WebSocket = require('ws');
+  var EventFilter = require('./EventFilter');
+  var MessageBuilder = require('./MessageBuilder');
+  var MessageHandler = require('./MessageHandler');
+  var EventSender = require('./EventSender');
+  /* jshint ignore:start */
+  var WebSocket = require('ws');
+  /* jshint ignore:end */
 }
 
 function Lemma(lemmaId, desiredRoom, debug) {
   this.connected = false;
   this.lemmaId = lemmaId;
   this.desiredRoom = desiredRoom;
-  if( debug == "DEBUG") this.debugMode = true;
+  if (debug === 'DEBUG') {
+    this.debugMode = true;
+  }
+
   this.messageBuilder = new MessageBuilder(this.lemmaId);
   this.eventFilter = new EventFilter();
   this.messageHandler = new MessageHandler(this.eventFilter);
 }
 
-Lemma.prototype.debug = function(str){ 
-  if(this.debugMode){
-    console.log(str); 
+Lemma.prototype.debug = function(str) {
+  if (this.debugMode) {
+    console.log(str);
   }
 };
-Lemma.prototype.isConnected = function(){ return !!this.connected; };
+
+Lemma.prototype.isConnected = function() { return !!this.connected; };
 
 Lemma.prototype.begin = function(host, port) {
-  var lemma = this;
-  var ws = new WebSocket("ws://" + host + ":" + port.toString() + "/websocket");
-  lemma.sender = new EventSender(ws, this.messageBuilder);
+  var _this = this;
+  var ws = new WebSocket('ws://' + host + ':' + port.toString() + '/websocket');
+  this.ws = ws;
 
-  ws.onmessage = function(evt) { lemma.messageHandler.receive(evt.data); };
+  _this.sender = new EventSender(ws, this.messageBuilder);
+
+  ws.onmessage = function(evt) { _this.messageHandler.receive(evt.data); };
+
   ws.onclose = function() {
-    lemma.connected = false;
-    lemma.debug("socket closed");
-    lemma.sender = null;
-    if(lemma.onDisconnectCallback) {
-      lemma.onDisconnectCallback();
+    _this.connected = false;
+    _this.debug('socket closed');
+    _this.sender = null;
+    if (_this.onDisconnectCallback) {
+      _this.onDisconnectCallback();
     }
   };
+
   ws.onopen = function() {
-    lemma.debug("connected...");
-    lemma.sender.sendRegister([], lemma.eventFilter.events());
-    lemma.connected = true;
+    _this.debug('connected...');
+    _this.sender.sendRegister([], _this.eventFilter.events());
+    _this.connected = true;
   };
+
   ws.onerror = function(err) {
-    lemma.connected = false;
-    lemma.debug("Web socket Error");
-    lemma.debug(err);
-    lemma.sender = null;
-    if(lemma.onDisconnectCallback) {
-      lemma.onDisconnectCallback();
+    _this.connected = false;
+    _this.debug('Web socket Error');
+    _this.debug(err);
+    _this.sender = null;
+    if (_this.onDisconnectCallback) {
+      _this.onDisconnectCallback();
     }
   };
 };
@@ -130,77 +146,84 @@ Lemma.prototype.sendEvent = function(name, value) {
     try {
       this.sender.sendEvent(name, value);
     } catch (e) {
-      this.debug("Error trying to send: " + e);
+      this.debug('Error trying to send: ' + e);
       this.sender = null;
-      if(this.onDisconnectCallback) {
+      if (this.onDisconnectCallback) {
         this.onDisconnectCallback();
       }
     }
   }
   else {
-    this.debug("You must 'begin' the lemma before sending a message");
+    this.debug('You must "begin" the lemma before sending a message');
   }
 };
 
-if(isNode){
+Lemma.prototype.end = function() {
+  this.ws.close();
+};
+
+if (isNode) {
   module.exports = Lemma;
 }
 
 
-//Copyright (c) 2015, IDEO 
+'use strict';
 
-function MessageBuilder(lemma_id){
-  this.lemma_id = lemma_id;
+//Copyright (c) 2015, IDEO
+
+function MessageBuilder(lemmaId) {
+  this.lemmaId = lemmaId;
 }
 
-MessageBuilder.prototype.event = function(name, value){
+MessageBuilder.prototype.event = function(name, value) {
   var output = [];
-  output.push("event");
-  output.push(this.lemma_id);
+  output.push('event');
+  output.push(this.lemmaId);
   output.push(name);
   output.push(value);
   return JSON.stringify(output);
 };
 
-MessageBuilder.prototype.register = function(plays, hears, device_id, system_version){
+MessageBuilder.prototype.register = function(plays, hears, deviceId, systemVersion) {
   var output = [];
   output.push('register');
-  output.push(this.lemma_id);
+  output.push(this.lemmaId);
   output.push(0);
   output.push(hears);
   output.push(plays);
-  output.push(device_id);
-  output.push(system_version);
+  output.push(deviceId);
+  output.push(systemVersion);
   return JSON.stringify(output);
 };
 
-MessageBuilder.prototype.marco = function(desiredRoom){
+MessageBuilder.prototype.marco = function(desiredRoom) {
   var output = [];
   output.push('marco');
-  output.push(this.lemma_id);
+  output.push(this.lemmaId);
   output.push(desiredRoom);
   output.push('node.js');
   output.push('1.1');
   return JSON.stringify(output);
 };
 
-if(typeof module !== 'undefined' && module.exports){
+if (typeof module !== 'undefined' && module.exports) {
   module.exports = MessageBuilder;
 }
 
-//Copyright (c) 2015, IDEO 
+'use strict';
+//Copyright (c) 2015, IDEO
 
 var isNode = false;
-if(typeof module !== 'undefined' && module.exports){
-  var TcpReader = require('./TcpReader'),
-  MessageParser = require('./MessageParser');
+if (typeof module !== 'undefined' && module.exports) {
+  var TcpReader = require('./TcpReader');
+  var MessageParser = require('./MessageParser');
   isNode = true;
 }
 
 function MessageHandler(eventFilter) {
   this.tcpReader = new TcpReader(function(message) {
     var parsed = (new MessageParser()).parse(message);
-    if (parsed[0] == "event") {
+    if (parsed[0] === 'event') {
       eventFilter.handle(parsed[2], parsed[3]);
     }
   });
@@ -210,11 +233,13 @@ MessageHandler.prototype.receive = function(data) {
   this.tcpReader.read(data);
 };
 
-if(isNode){
+if (isNode) {
   module.exports = MessageHandler;
 }
 
-//Copyright (c) 2015, IDEO 
+'use strict';
+
+//Copyright (c) 2015, IDEO
 
 function MessageParser() {
 }
@@ -223,92 +248,98 @@ MessageParser.prototype.parse = function(message) {
   try {
     return JSON.parse(message);
   }
-  catch(e) {
-    console.log("Error Parsing badly formed JSON: " + message);
+  catch (e) {
+    console.log('Error Parsing badly formed JSON: ' + message);
     console.log(e);
     return [];
   }
 };
 
-if(typeof module !== 'undefined' && module.exports){
+if (typeof module !== 'undefined' && module.exports) {
   module.exports = MessageParser;
 }
 
-//Copyright (c) 2015, IDEO 
+'use strict';
+
+//Copyright (c) 2015, IDEO
 
 var isNode = false;
-var debugMode = false;
-if(typeof module !== 'undefined' && module.exports){
+
+if (typeof module !== 'undefined' && module.exports) {
   isNode = true;
-  var Datagram = require('dgram'),
-  MessageBuilder = require('./MessageBuilder'),
-  MessageParser = require('./MessageParser');
+  var Datagram = require('dgram');
+  var MessageBuilder = require('./MessageBuilder');
+  var MessageParser = require('./MessageParser');
 }
 
-
+// I also like to live ... dangerously.
+// jscs:disable
 /* jshint ignore:start */
+
 // from http://mzl.la/1fFEbu9
-if(!Function.prototype.bind) {
-  Function.prototype.bind = function (oThis) {
-    if (typeof this !== "function") {
+if (!Function.prototype.bind) {
+  Function.prototype.bind = function(oThis) {
+    if (typeof this !== 'function') {
       // closest thing possible to the ECMAScript 5 internal IsCallable function
-      throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+      throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
     }
 
-    var aArgs = Array.prototype.slice.call(arguments, 1),
-    fToBind = this,
-    fNOP = function () {},
-    fBound = function () {
-      return fToBind.apply(this instanceof fNOP && oThis
+    var aArgs = Array.prototype.slice.call(arguments, 1);
+    var _this = this;
+    var fNOP = function() {};
+
+    fBound = function() {
+      return _this.apply(this instanceof fNOP && oThis
         ? this
         : oThis,
         aArgs.concat(Array.prototype.slice.call(arguments)));
     };
 
     fNOP.prototype = this.prototype;
-    fBound.prototype = new fNOP();
+    fBound.prototype = new fNOP(); // jscs
 
     return fBound;
   };
 }
 /* jshint ignore:end */
+// jscs:enable
 
 function ServerLocator(lemma) {
   this.lemma = lemma;
   this.lemma.onDisconnectCallback = this.beginLocating.bind(this);
-  this.broadcastHost = "255.255.255.255";
+  this.broadcastHost = '255.255.255.255';
   this.broadcastPort = 1030;
-  this.dialect = "node.js";
-  this.protocolVersion = "2";
+  this.dialect = 'node.js';
+  this.protocolVersion = '2';
 
   this.webSocketPort = 8089;
 }
 
 ServerLocator.prototype.beginLocating = function() {
-  var serverLocator = this;
+  var _this = this;
   var lemma = this.lemma;
   var desiredRoom = lemma.desiredRoom;
-  var message = new MessageBuilder(lemma.lemmaId).marco(desiredRoom || "");
+  var message = new MessageBuilder(lemma.lemmaId).marco(desiredRoom || '');
 
-  var udp = Datagram.createSocket("udp4");
+  var udp = Datagram.createSocket('udp4');
 
-  udp.on("error", function (err) {
-    lemma.debug("udp error:\n" + err.stack);
+  udp.on('error', function(err) {
+    lemma.debug('udp error:\n' + err.stack);
     udp.close();
   });
 
-  udp.on("message", function (message, sender) {
+  udp.on('message', function (message, sender) {
     if(lemma.isConnected()) { return; }
     var parsed = new MessageParser().parse(message);
-    if(parsed[0] === "polo") {
-      lemma.debug("got polo from " + sender.address + ":" + sender.port + " - " + message);
-      lemma.begin(sender.address, serverLocator.webSocketPort);
+    if(parsed[0] === 'polo') {
+      lemma.debug('got polo from ' + sender.address + ':' + sender.port + ' - ' + message);
+      lemma.begin(sender.address, _this.webSocketPort);
     }
   });
 
-  udp.on("listening", function () {
+  udp.on('listening', function () {
     var address = udp.address();
-    lemma.debug("udp listening " + address.address + ":" + address.port);
+    lemma.debug('udp listening ' + address.address + ':' + address.port);
   });
 
   udp.bind(function() {
@@ -316,43 +347,46 @@ ServerLocator.prototype.beginLocating = function() {
   });
 
   var fire = function() {
-    if(lemma.isConnected()) { return; }
+    if (lemma.isConnected()) { return; }
+
     var sendCallback = function() {
-      lemma.debug("sent marco: " + message);
+      lemma.debug('sent marco: ' + message);
       setTimeout(fire, 1000);
     };
+
     udp.send(new Buffer(message), 0, message.length,
-             serverLocator.broadcastPort,
-             serverLocator.broadcastHost,
+             _this.broadcastPort,
+             _this.broadcastHost,
              sendCallback);
   };
 
   setTimeout(fire, 1000);
 };
 
-if(isNode){
+if (isNode) {
   module.exports = ServerLocator;
 }
 
-//Copyright (c) 2015, IDEO 
+'use strict';
+//Copyright (c) 2015, IDEO
 
 function TcpReader(callback) {
   this.callback = callback;
-  this.buffer = "";
+  this.buffer = '';
 }
 
 TcpReader.prototype.read = function(data) {
   this.buffer = this.buffer.concat(data);
-  var size = this.payloadSize( this.buffer );
-  while ( size > 0 && this.buffer.length >= ( 6 + size ) ) {
-    this.consumeOne( size );
-    size = this.payloadSize( this.buffer );
+  var size = this.payloadSize(this.buffer);
+  while (size > 0 && this.buffer.length >= 6 + size) {
+    this.consumeOne(size);
+    size = this.payloadSize(this.buffer);
   }
 };
 
 TcpReader.prototype.payloadSize = function(buffer) {
-  if ( this.buffer.length >= 6 ){
-    return parseInt( buffer.slice( 0,6 ), 10 );
+  if (this.buffer.length >= 6) {
+    return parseInt(buffer.slice(0, 6), 10);
   }
   else {
     return -1;
@@ -362,10 +396,10 @@ TcpReader.prototype.payloadSize = function(buffer) {
 TcpReader.prototype.consumeOne = function(size) {
   var messageStart = 6;
   var messageEnd = 6 + size;
-  this.callback( this.buffer.slice( messageStart, messageEnd ) );
-  this.buffer = this.buffer.slice( messageEnd, this.buffer.length );
+  this.callback(this.buffer.slice(messageStart, messageEnd));
+  this.buffer = this.buffer.slice(messageEnd, this.buffer.length);
 };
 
-if(typeof module !== 'undefined' && module.exports){
+if (typeof module !== 'undefined' && module.exports) {
   module.exports = TcpReader;
 }

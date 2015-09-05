@@ -1,17 +1,19 @@
-//Copyright (c) 2015, IDEO 
+'use strict';
+
+//Copyright (c) 2015, IDEO
 
 function EventSender(webSocket, builder) {
-  this.systemVersion = "1.0";
+  this.systemVersion = '1.0';
   this.webSocket = webSocket;
   this.builder = builder;
 }
 
-EventSender.prototype.sendEvent = function(name, value){
+EventSender.prototype.sendEvent = function(name, value) {
   this.sendMessage(this.builder.event(name, value));
 };
 
 EventSender.prototype.sendRegister = function(plays, hears) {
-  this.sendMessage(this.builder.register(plays, hears, "web", this.systemVersion));
+  this.sendMessage(this.builder.register(plays, hears, 'web', this.systemVersion));
 };
 
 EventSender.prototype.sendMessage = function(message) {

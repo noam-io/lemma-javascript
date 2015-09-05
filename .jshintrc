@@ -1,0 +1,27 @@
+{
+  "node": true,
+  "browser": true,
+  "esnext": true,
+  "bitwise": true,
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "forin":true,
+  "freeze":true,
+  "latedef": true,
+  "maxcomplexity": 6,
+  "maxdepth": 3,
+  "noarg": true,
+  "nonew": true,
+  "notypeof":true,
+  "singleGroups":true,
+  "undef": true,
+  "unused": true,
+  "strict": true,
+  "jquery": true,
+  "jasmine": true,
+  "globals": {
+    "angular": false,
+    "inject": false
+  }
+}

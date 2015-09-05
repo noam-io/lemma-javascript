@@ -1,7 +1,7 @@
-//Copyright (c) 2015, IDEO 
+//Copyright (c) 2015, IDEO
 'use strict';
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
@@ -32,8 +32,7 @@ module.exports = function (grunt) {
       }
     },
 
-
-     uglify: {
+    uglify: {
        dist: {
          files: {
            '<%= cfg.dist %>/lemma.min.js': [
@@ -42,14 +41,15 @@ module.exports = function (grunt) {
          }
        }
      },
-     concat: {
+
+    concat: {
        dist: {
-        src: [
+         src: [
           '<%= cfg.src %>/*.js'
           ],
-        dest: '<%= cfg.dist %>/lemma.js',
+         dest: '<%= cfg.dist %>/lemma.js',
        }
-     },
+     }
   });
 
   grunt.registerTask('default', [
