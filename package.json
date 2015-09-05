@@ -1,6 +1,6 @@
 {
   "name": "noam-lemma-javascript",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "repository": {
     "type": "git",
     "url": "git://github.com/noam-io/lemma-javascript"
@@ -33,18 +33,6 @@
     "grunt-contrib-uglify": "^0.9.2",
     "jshint": "2.x",
     "load-grunt-tasks": "^3.2.0"
-  },
-  "jshintConfig": {
-    "boss": true,
-    "node": true,
-    "smarttabs": true,
-    "undef": true,
-    "unused": true,
-    "onecase": true,
-    "lastsemic": true,
-    "newcap": false,
-    "maxlen": 100,
-    "indent": 2
   },
   "engines": {
     "node": "0.11.x",
