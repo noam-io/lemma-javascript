@@ -1,4 +1,5 @@
 'use strict';
+
 //Copyright (c) 2015, IDEO
 
 var isNode = false;

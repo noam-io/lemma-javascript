@@ -1,5 +1,6 @@
 'use strict';
-//Copyright (c) 2015, IDEO 
+
+//Copyright (c) 2015, IDEO
 
 function EventFilter() {
   this.callbacks = {};
@@ -9,13 +10,14 @@ EventFilter.prototype.add = function(name, callback) {
   if (this.callbacks[name] === undefined) {
     this.callbacks[name] = [];
   }
+
   this.callbacks[name].push(callback);
 };
 
 EventFilter.prototype.handle = function(name, value) {
   var callbacks = this.callbacks[name];
   if (callbacks !== undefined) {
-    callbacks.forEach(function (callback) {
+    callbacks.forEach(function(callback) {
       callback(name, value);
     });
   }
@@ -25,7 +27,7 @@ EventFilter.prototype.events = function() {
   return Object.keys(this.callbacks);
 };
 
-if(typeof module !== 'undefined' && module.exports){
+if (typeof module !== 'undefined' && module.exports) {
   module.exports = EventFilter;
 }
 
@@ -55,7 +57,7 @@ EventSender.prototype.zeroPad = function(number, width) {
   return (new Array(width + 1 - number.toString().length)).join('0') + number;
 };
 
-if(typeof module !== 'undefined' && module.exports){
+if (typeof module !== 'undefined' && module.exports) {
   module.exports = EventSender;
 }
 
@@ -152,8 +154,7 @@ Lemma.prototype.sendEvent = function(name, value) {
         this.onDisconnectCallback();
       }
     }
-  }
-  else {
+  } else {
     this.debug('You must "begin" the lemma before sending a message');
   }
 };
@@ -211,6 +212,7 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 'use strict';
+
 //Copyright (c) 2015, IDEO
 
 var isNode = false;
@@ -302,6 +304,7 @@ if (!Function.prototype.bind) {
   };
 }
 /* jshint ignore:end */
+
 // jscs:enable
 
 function ServerLocator(lemma) {
@@ -328,16 +331,17 @@ ServerLocator.prototype.beginLocating = function() {
     udp.close();
   });
 
-  udp.on('message', function (message, sender) {
-    if(lemma.isConnected()) { return; }
+  udp.on('message', function(message, sender) {
+    if (lemma.isConnected()) { return; }
+
     var parsed = new MessageParser().parse(message);
-    if(parsed[0] === 'polo') {
+    if (parsed[0] === 'polo') {
       lemma.debug('got polo from ' + sender.address + ':' + sender.port + ' - ' + message);
       lemma.begin(sender.address, _this.webSocketPort);
     }
   });
 
-  udp.on('listening', function () {
+  udp.on('listening', function() {
     var address = udp.address();
     lemma.debug('udp listening ' + address.address + ':' + address.port);
   });
@@ -368,6 +372,7 @@ if (isNode) {
 }
 
 'use strict';
+
 //Copyright (c) 2015, IDEO
 
 function TcpReader(callback) {
@@ -387,8 +392,7 @@ TcpReader.prototype.read = function(data) {
 TcpReader.prototype.payloadSize = function(buffer) {
   if (this.buffer.length >= 6) {
     return parseInt(buffer.slice(0, 6), 10);
-  }
-  else {
+  } else {
     return -1;
   }
 };

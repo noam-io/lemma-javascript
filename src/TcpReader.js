@@ -1,4 +1,5 @@
 'use strict';
+
 //Copyright (c) 2015, IDEO
 
 function TcpReader(callback) {
@@ -18,8 +19,7 @@ TcpReader.prototype.read = function(data) {
 TcpReader.prototype.payloadSize = function(buffer) {
   if (this.buffer.length >= 6) {
     return parseInt(buffer.slice(0, 6), 10);
-  }
-  else {
+  } else {
     return -1;
   }
 };

@@ -91,8 +91,7 @@ Lemma.prototype.sendEvent = function(name, value) {
         this.onDisconnectCallback();
       }
     }
-  }
-  else {
+  } else {
     this.debug('You must "begin" the lemma before sending a message');
   }
 };

@@ -42,19 +42,41 @@ module.exports = function(grunt) {
        }
      },
 
+    jscs: {
+      src: ['<%= cfg.src %>/*.js'],
+      options: {
+        config: '.jscsrc',
+        fix: true
+      }
+    },
+
+    jshint: {
+      options: {
+        jshintrc: true
+      },
+      all: ['<%= cfg.src %>/*.js']
+    },
+
     concat: {
        dist: {
          src: [
           '<%= cfg.src %>/*.js'
           ],
-         dest: '<%= cfg.dist %>/lemma.js',
+         dest: '<%= cfg.dist %>/lemma.js'
        }
      }
   });
 
+  grunt.registerTask('test', [
+    'jshint',
+    'jscs'
+  ]);
+
   grunt.registerTask('default', [
+    'test',
     'clean:dist',
     'concat:dist',
     'uglify:dist'
   ]);
+
 };

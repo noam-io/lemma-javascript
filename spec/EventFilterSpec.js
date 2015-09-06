@@ -1,3 +1,5 @@
+/* global EventFilter */
+'use strict';
 describe("EventFilter", function() {
   var filter;
   beforeEach(function() {

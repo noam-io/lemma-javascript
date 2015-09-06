@@ -41,6 +41,7 @@ if (!Function.prototype.bind) {
   };
 }
 /* jshint ignore:end */
+
 // jscs:enable
 
 function ServerLocator(lemma) {
@@ -67,16 +68,17 @@ ServerLocator.prototype.beginLocating = function() {
     udp.close();
   });
 
-  udp.on('message', function (message, sender) {
-    if(lemma.isConnected()) { return; }
+  udp.on('message', function(message, sender) {
+    if (lemma.isConnected()) { return; }
+
     var parsed = new MessageParser().parse(message);
-    if(parsed[0] === 'polo') {
+    if (parsed[0] === 'polo') {
       lemma.debug('got polo from ' + sender.address + ':' + sender.port + ' - ' + message);
       lemma.begin(sender.address, _this.webSocketPort);
     }
   });
 
-  udp.on('listening', function () {
+  udp.on('listening', function() {
     var address = udp.address();
     lemma.debug('udp listening ' + address.address + ':' + address.port);
   });
