@@ -32,6 +32,14 @@ module.exports = function(grunt) {
       }
     },
 
+    sync: {
+      all: {
+        options: {
+          // sync specific options
+          sync: ['author', 'name', 'version', 'private', 'contributors', 'license', 'homepage']
+        }
+      }
+    },
     uglify: {
        dist: {
          files: {
@@ -78,5 +86,7 @@ module.exports = function(grunt) {
     'concat:dist',
     'uglify:dist'
   ]);
+
+
 
 };
