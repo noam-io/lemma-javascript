@@ -25,7 +25,7 @@
   "scripts": {
     "test": "grunt test",
     "preversion": "npm test",
-    "version": "npm run-script build && grunt sync && git add -A dist && git commit -a bower.json",
+    "version": "npm run-script build && grunt sync && git add -A dist && git add bower.json",
     "build": "grunt"
   },
   "description": "This library is used to connect javascript applications to Ideo's Noam Server. It uses web sockets, which can connect up through firewalls and translation layers.",
