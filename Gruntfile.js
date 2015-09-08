@@ -51,7 +51,7 @@ module.exports = function(grunt) {
      },
 
     jscs: {
-      src: ['<%= cfg.src %>/*.js'],
+      src: ['<%= cfg.src %>/*.js', '<%= cfg.dist %>/lemma.js'],
       options: {
         config: '.jscsrc',
         fix: true
@@ -62,11 +62,19 @@ module.exports = function(grunt) {
       options: {
         jshintrc: true
       },
-      all: ['<%= cfg.src %>/*.js']
+      all: ['<%= cfg.src %>/*.js', '<%= cfg.dist %>/lemma.js']
     },
 
     concat: {
        dist: {
+         options: {
+           // Replace all 'use strict' statements in the code with a single one at the top
+           banner: '\'use strict\';\n\n',
+           process: function(src, filepath) {
+             return '// Source: ' + filepath + '\n' +
+               src.replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1');
+           }
+         },
          src: [
           '<%= cfg.src %>/*.js'
           ],
@@ -81,12 +89,10 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'test',
     'clean:dist',
     'concat:dist',
-    'uglify:dist'
+    'uglify:dist',
+    'test'
   ]);
-
-
 
 };

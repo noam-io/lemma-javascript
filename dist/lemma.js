@@ -1,5 +1,6 @@
 'use strict';
 
+// Source: src/EventFilter.js
 //Copyright (c) 2015, IDEO
 
 function EventFilter() {
@@ -31,8 +32,7 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = EventFilter;
 }
 
-'use strict';
-
+// Source: src/EventSender.js
 //Copyright (c) 2015, IDEO
 
 function EventSender(webSocket, builder) {
@@ -61,8 +61,7 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = EventSender;
 }
 
-'use strict';
-
+// Source: src/Lemma.js
 //Copyright (c) 2015, IDEO
 
 //= require MessageBuilder
@@ -167,9 +166,7 @@ if (isNode) {
   module.exports = Lemma;
 }
 
-
-'use strict';
-
+// Source: src/MessageBuilder.js
 //Copyright (c) 2015, IDEO
 
 function MessageBuilder(lemmaId) {
@@ -211,8 +208,7 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = MessageBuilder;
 }
 
-'use strict';
-
+// Source: src/MessageHandler.js
 //Copyright (c) 2015, IDEO
 
 var isNode = false;
@@ -239,8 +235,7 @@ if (isNode) {
   module.exports = MessageHandler;
 }
 
-'use strict';
-
+// Source: src/MessageParser.js
 //Copyright (c) 2015, IDEO
 
 function MessageParser() {
@@ -261,8 +256,7 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = MessageParser;
 }
 
-'use strict';
-
+// Source: src/ServerLocator.js
 //Copyright (c) 2015, IDEO
 
 var isNode = false;
@@ -371,8 +365,7 @@ if (isNode) {
   module.exports = ServerLocator;
 }
 
-'use strict';
-
+// Source: src/TcpReader.js
 //Copyright (c) 2015, IDEO
 
 function TcpReader(callback) {
