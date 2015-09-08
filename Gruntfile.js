@@ -9,7 +9,9 @@ module.exports = function(grunt) {
   // Configurable paths for the application
   var cfg = {
     dist: 'dist',
-    src: 'src'
+    src: 'src',
+    outputfile: 'lemma.js',
+    minifiedFile: 'lemma.min.js'
   };
 
   // Define the configuration for all the tasks
@@ -32,26 +34,24 @@ module.exports = function(grunt) {
       }
     },
 
-    sync: {
-      all: {
-        options: {
-          // sync specific options
-          sync: ['author', 'name', 'version', 'private', 'contributors', 'license', 'homepage']
-        }
+    release: {
+      options: {
+        additionalFiles: ['bower.json'],
+        beforeBump:['test']
       }
     },
     uglify: {
        dist: {
          files: {
-           '<%= cfg.dist %>/lemma.min.js': [
-             '<%= cfg.dist %>/lemma.js'
+           '<%= cfg.dist %>/<%= cfg.minifiedFile %>': [
+             '<%= cfg.dist %>/<%= cfg.outputfile %>'
            ]
          }
        }
      },
 
     jscs: {
-      src: ['<%= cfg.src %>/*.js', '<%= cfg.dist %>/lemma.js'],
+      src: ['<%= cfg.src %>/*.js', '<%= cfg.dist %>/<%= cfg.outputfile %>'],
       options: {
         config: '.jscsrc',
         fix: true
@@ -62,7 +62,7 @@ module.exports = function(grunt) {
       options: {
         jshintrc: true
       },
-      all: ['<%= cfg.src %>/*.js', '<%= cfg.dist %>/lemma.js']
+      all: ['<%= cfg.src %>/*.js', '<%= cfg.dist %>/<%= cfg.outputfile %>']
     },
 
     concat: {
@@ -78,7 +78,7 @@ module.exports = function(grunt) {
          src: [
           '<%= cfg.src %>/*.js'
           ],
-         dest: '<%= cfg.dist %>/lemma.js'
+         dest: '<%= cfg.dist %>/<%= cfg.outputfile %>'
        }
      }
   });
@@ -92,8 +92,7 @@ module.exports = function(grunt) {
     'clean:dist',
     'concat:dist',
     'uglify:dist',
-    'test',
-    'sync'
+    'test'
   ]);
 
 };
