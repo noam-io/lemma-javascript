@@ -92,7 +92,8 @@ module.exports = function(grunt) {
     'clean:dist',
     'concat:dist',
     'uglify:dist',
-    'test'
+    'test',
+    'sync'
   ]);
 
 };
